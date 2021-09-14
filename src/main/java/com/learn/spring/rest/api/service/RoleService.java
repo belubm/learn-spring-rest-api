@@ -3,7 +3,6 @@ package com.learn.spring.rest.api.service;
 import com.learn.spring.rest.api.data.dao.RoleEntity;
 import com.learn.spring.rest.api.exceptions.RoleServiceException;
 import com.learn.spring.rest.api.repository.RoleRepository;
-import com.learn.spring.rest.api.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,10 @@ public class RoleService {
     @Autowired
     protected RoleRepository roleRepository;
 
-    @Autowired
-    protected UserRepository userRepository;
-
     public RoleEntity createRole(RoleEntity roleEntity) {
+        if (roleRepository.findByDescription(roleEntity.getDescription()) != null) {
+            throw new RoleServiceException("Role with description: " + roleEntity.getDescription() + " already exists! Please define a unique role.");
+        }
         return roleRepository.save(roleEntity);
     }
 

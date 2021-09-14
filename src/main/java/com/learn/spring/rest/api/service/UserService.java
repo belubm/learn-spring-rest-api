@@ -22,14 +22,6 @@ public class UserService {
     @Autowired
     protected RoleRepository roleRepository;
 
-    public List<UserEntity> getUsers() {
-        return (List<UserEntity>) userRepository.findAll();
-    }
-
-    public UserEntity getUser(Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new UserServiceException("User with id: " + id + " not found"));
-    }
-
     public UserEntity createUser(Short roleId, UserEntity userEntity) {
         if (userRepository.findByEmail(userEntity.getEmail()) != null) {
             throw new UserServiceException("Record with email address: " + userEntity.getEmail() + " already exists! Please provide an unique email address.");
@@ -38,6 +30,15 @@ public class UserService {
         userEntity.setRole(role);
         return userRepository.save(userEntity);
     }
+
+    public List<UserEntity> getUsers() {
+        return (List<UserEntity>) userRepository.findAll();
+    }
+
+    public UserEntity getUser(Integer id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserServiceException("User with id: " + id + " not found"));
+    }
+
 
     public UserEntity updateUser(Short roleId, Integer userId, UserEntity userEntity) {
         UserEntity returnValue = userRepository.findById(userId).orElseThrow(() -> new UserServiceException("User with id: " + userId + " not found!"));
