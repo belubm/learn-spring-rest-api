@@ -4,7 +4,7 @@
 
 ### mysql DB creation and setup:
  - Login to mysql shell using root:
- 	 mysql -u root -p
+ 	**mysql -u root -p**
 	- when prompted provide your root password
  - Create database:
 	create database spring_db;
