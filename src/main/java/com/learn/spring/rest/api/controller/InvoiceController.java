@@ -3,6 +3,7 @@ package com.learn.spring.rest.api.controller;
 import com.learn.spring.rest.api.data.dao.InvoiceEntity;
 import com.learn.spring.rest.api.data.dto.request.InvoiceRequest;
 import com.learn.spring.rest.api.data.dto.response.InvoiceResponse;
+import com.learn.spring.rest.api.exceptions.DuplicateRecordException;
 import com.learn.spring.rest.api.service.InvoiceService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class InvoiceController {
     protected InvoiceService invoiceService;
 
     @PostMapping("/users/{userId}/invoices")
-    public InvoiceResponse createInvoice(@PathVariable Integer userId, @RequestBody InvoiceRequest invoiceRequest) {
+    public InvoiceResponse createInvoice(@PathVariable Integer userId, @RequestBody InvoiceRequest invoiceRequest) throws DuplicateRecordException {
         InvoiceResponse returnValue = new InvoiceResponse();
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         BeanUtils.copyProperties(invoiceRequest, invoiceEntity);
@@ -50,7 +51,7 @@ public class InvoiceController {
     }
 
     @PutMapping("/invoices/{id}")
-    public InvoiceResponse updateInvoice(@PathVariable Long id, @RequestBody InvoiceRequest invoiceRequest) {
+    public InvoiceResponse updateInvoice(@PathVariable Long id, @RequestBody InvoiceRequest invoiceRequest) throws DuplicateRecordException {
         InvoiceResponse returnValue = new InvoiceResponse();
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         BeanUtils.copyProperties(invoiceRequest, invoiceEntity);

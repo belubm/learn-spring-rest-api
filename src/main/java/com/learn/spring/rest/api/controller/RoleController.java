@@ -3,6 +3,7 @@ package com.learn.spring.rest.api.controller;
 import com.learn.spring.rest.api.data.dao.RoleEntity;
 import com.learn.spring.rest.api.data.dto.request.RoleRequest;
 import com.learn.spring.rest.api.data.dto.response.RoleResponse;
+import com.learn.spring.rest.api.exceptions.DuplicateRecordException;
 import com.learn.spring.rest.api.service.RoleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RoleController {
     protected RoleService roleService;
 
     @PostMapping()
-    public RoleResponse createRole(@RequestBody RoleRequest roleRequest) {
+    public RoleResponse createRole(@RequestBody RoleRequest roleRequest) throws DuplicateRecordException {
         RoleResponse returnValue = new RoleResponse();
         RoleEntity roleEntity = new RoleEntity();
         BeanUtils.copyProperties(roleRequest, roleEntity);
@@ -49,7 +50,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public RoleResponse updateUser(@PathVariable short id, @RequestBody RoleRequest roleRequest) {
+    public RoleResponse updateUser(@PathVariable short id, @RequestBody RoleRequest roleRequest) throws DuplicateRecordException {
         RoleResponse returnValue = new RoleResponse();
         RoleEntity role = new RoleEntity();
         BeanUtils.copyProperties(roleRequest, role);

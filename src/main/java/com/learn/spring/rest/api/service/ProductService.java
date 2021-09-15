@@ -4,8 +4,7 @@ import com.learn.spring.rest.api.data.dao.CategoryEntity;
 import com.learn.spring.rest.api.data.dao.ProductEntity;
 import com.learn.spring.rest.api.data.dto.CategoryDto;
 import com.learn.spring.rest.api.data.dto.ProductDto;
-import com.learn.spring.rest.api.exceptions.CategoryServiceException;
-import com.learn.spring.rest.api.exceptions.ProductServiceException;
+import com.learn.spring.rest.api.exceptions.RecordNotFoundException;
 import com.learn.spring.rest.api.repository.CategoryRepository;
 import com.learn.spring.rest.api.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +25,7 @@ public class ProductService {
 
     public ProductDto createProduct(Integer categoryId, ProductDto productDto) {
 
-        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryServiceException("Category with id: " + categoryId + " not found"));
+        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(() -> new RecordNotFoundException("Category with id: " + categoryId + " not found"));
         ProductEntity productEntity = new ProductEntity();
         BeanUtils.copyProperties(productDto, productEntity);
         productEntity.setCategory(category);
@@ -44,7 +43,7 @@ public class ProductService {
 
     public ProductDto getProduct(Long id) {
         ProductDto returnValue = new ProductDto();
-        ProductEntity product = productRepository.findById(id).orElseThrow(() -> new ProductServiceException("Product with id: " + id + " not found"));
+        ProductEntity product = productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Product with id: " + id + " not found"));
         CategoryDto categoryDto = new CategoryDto();
         BeanUtils.copyProperties(product.getCategory(), categoryDto);
         BeanUtils.copyProperties(product, returnValue);
@@ -53,7 +52,7 @@ public class ProductService {
     }
 
     public ProductDto updateProduct(Long id, ProductDto productDto) {
-        ProductEntity product = productRepository.findById(id).orElseThrow(() -> new ProductServiceException("Product with id: " + id + " not found"));
+        ProductEntity product = productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Product with id: " + id + " not found"));
         CategoryDto categoryDto = new CategoryDto();
         BeanUtils.copyProperties(product.getCategory(), categoryDto);
         productDto.setCategory(categoryDto);
@@ -63,7 +62,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
-        productRepository.delete(productRepository.findById(id).orElseThrow(() -> new ProductServiceException("Product with id: " + id + " not found")));
+        productRepository.delete(productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Product with id: " + id + " not found")));
     }
 
     public List<ProductDto> getProducts() {

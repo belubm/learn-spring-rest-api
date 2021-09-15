@@ -3,6 +3,7 @@ package com.learn.spring.rest.api.controller;
 import com.learn.spring.rest.api.data.dao.UserEntity;
 import com.learn.spring.rest.api.data.dto.request.UserRequest;
 import com.learn.spring.rest.api.data.dto.response.UserResponse;
+import com.learn.spring.rest.api.exceptions.DuplicateRecordException;
 import com.learn.spring.rest.api.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,12 @@ public class UserController {
     protected UserService userService;
 
     @PostMapping("/role/{roleId}")
-    public UserResponse createUser(@PathVariable short roleId, @RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@PathVariable short roleId, @RequestBody UserRequest userRequest) throws DuplicateRecordException {
         UserResponse returnValue = new UserResponse();
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userRequest, userEntity);
-        UserEntity createdUser = userService.createUser(roleId, userEntity);
+        UserEntity createdUser = null;
+        createdUser = userService.createUser(roleId, userEntity);
         BeanUtils.copyProperties(createdUser, returnValue);
         return returnValue;
     }

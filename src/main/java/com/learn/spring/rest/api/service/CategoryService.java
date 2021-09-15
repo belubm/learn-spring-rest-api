@@ -2,7 +2,7 @@ package com.learn.spring.rest.api.service;
 
 import com.learn.spring.rest.api.data.dao.CategoryEntity;
 import com.learn.spring.rest.api.data.dto.CategoryDto;
-import com.learn.spring.rest.api.exceptions.CategoryServiceException;
+import com.learn.spring.rest.api.exceptions.RecordNotFoundException;
 import com.learn.spring.rest.api.repository.CategoryRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class CategoryService {
 
     public CategoryDto getCategory(Integer id) {
         CategoryDto returnValue = new CategoryDto();
-        CategoryEntity category = categoryRepository.findById(id).orElseThrow(() -> new CategoryServiceException("Category with id: " + id + " not found"));
+        CategoryEntity category = categoryRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Category with id: " + id + " not found"));
         BeanUtils.copyProperties(category, returnValue);
         return returnValue;
     }
@@ -47,7 +47,7 @@ public class CategoryService {
 
     public CategoryDto updateCategory(Integer id, CategoryDto categoryDto) {
         CategoryDto returnValue = new CategoryDto();
-        CategoryEntity category = categoryRepository.findById(id).orElseThrow(() -> new CategoryServiceException("Category with id: " + id + " not found"));
+        CategoryEntity category = categoryRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Category with id: " + id + " not found"));
         BeanUtils.copyProperties(categoryDto, category);
         category.setId(id);
         BeanUtils.copyProperties(category, returnValue);
@@ -56,6 +56,6 @@ public class CategoryService {
     }
 
     public void deleteCategory(Integer id) {
-        categoryRepository.delete(categoryRepository.findById(id).orElseThrow(() -> new CategoryServiceException("Category with id: " + id + " not found")));
+        categoryRepository.delete(categoryRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Category with id: " + id + " not found")));
     }
 }
