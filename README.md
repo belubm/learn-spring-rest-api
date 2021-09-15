@@ -4,23 +4,25 @@
 
 ### mysql DB creation and setup:
  - Login to mysql shell using root:
- 	command: mysql -u root -p
+ 	 mysql -u root -p
 	- when prompted provide your root password
  - Create database:
-	command: create database spring_db;
+	create database spring_db;
  - Create a mysql Local User (recommended), it's bad practice to use root user:
-	- mysql terminal commands:
-	command: create user 'belu'@'localhost' identified by '@pa55word';
+	create user 'belu'@'localhost' identified by '@pa55word';
 	- 'belu' can be replaced by the your personal user name
- - Grant user privileges to the created database
-	command: grant all privileges on spring_db.* to 'belu'@'localhost';
+	- '@pa55word' can be replaced with your personal password
+ - Grant user privileges to the created database:
+	grant all privileges on spring_db.* to 'belu'@'localhost';
 	- use your own username replacing 'belu' with it like this: 'your_user_name'@'localhost'
-	command: flush privileges;
+	flush privileges;
 	- the above command is used for changes to take place immediately 
-	command: exit
+	exit
  - Login to mysql shell using the newly created user:
-	command: mysql -u belu -p
+	mysql -u belu -p
 	- when prompted provide your user password 
+	show databases;
+	- you should see spring_db as a database available for use
 
 ***Note***
 *If database name,  username and password used are the same as in the above example, you can run the aplication from your favorite IDE or using the command: mvn spring-boot:run*
